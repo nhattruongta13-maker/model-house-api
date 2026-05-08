@@ -19,7 +19,7 @@ app.get('/db-test', async (req: Request,res: Response) => {
     }
 })
 
-app.post('/init-db', async(req: Request, res: Response) => {
+async function create_table(){
     try{
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users(
@@ -28,12 +28,13 @@ app.post('/init-db', async(req: Request, res: Response) => {
                 password TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT NOW()
                 )`)
-        res.json({message: 'users table created🔥'})
+        
     }catch(err){
         console.error(err)
-        res.status(500).json({error: 'table create fail🥀'})
-    }
-})
+        
+}
+}
+create_table()
 
 app.get('/', (req: Request, res: Response) => {
     res.json({status: 'Model house API online🔥'})
