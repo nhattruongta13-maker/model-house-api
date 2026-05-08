@@ -23,9 +23,9 @@ async function create_table(){
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users(
                 id SERIAL PRIMARY KEY,
-                email UNIQUE TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT NOW()
+                created_at TIMESTAMPTZ DEFAULT NOW()
                 )`)
         
     }catch(err){
