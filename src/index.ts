@@ -18,22 +18,6 @@ app.get('/db-test', async (req: Request,res: Response) => {
     }
 })
 
-async function create_table(){
-    try{
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS users(
-                id SERIAL PRIMARY KEY,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                created_at TIMESTAMPTZ DEFAULT NOW()
-                )`)
-        
-    }catch(err){
-        console.error(err)
-        
-}
-}
-create_table()
 
 app.get('/', (req: Request, res: Response) => {
     res.json({status: 'Model house API online🔥'})
