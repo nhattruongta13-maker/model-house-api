@@ -22,7 +22,7 @@ app.post('/register', async (req: Request, res: Response) => {
         const result = await pool.query(`
             INSERT INTO users (email, password_hash, name)
             VALUES ($1, $2, $3)
-            RETURNING id, email, created`,
+            RETURNING id, email, created_at`,
             [email, password, name || null]
         )
 
