@@ -20,7 +20,7 @@ app.post('/register', async (req: Request, res: Response) => {
         const password_hash = await bcrypt.hash(password, 10)
 
         const result = await pool.query(`
-            INSERT INTO users (email, password_hash, name)
+            INSERT INTO users (email, password, name)
             VALUES ($1, $2, $3)
             RETURNING id, email, created_at`,
             [email, password, name || null]
