@@ -23,7 +23,7 @@ app.post('/register', async (req: Request, res: Response) => {
             INSERT INTO users (email, password)
             VALUES ($1, $2)
             RETURNING id, email, created_at`,
-            [email, password || null]
+            [email, password_hash || null]
         )
 
         const newUser = result.rows[0]
