@@ -1,7 +1,10 @@
-import express, {Request, Response} from 'express'
+import express, {Request, Response, NextFunction} from 'express'
 import {createUser, loginUser} from '../services/service'
 import {AuthError} from '../error'
 
+
+const ERR_INVALID_CREDS = 'Invalid credentials'
+const ERR_INTERNAL = 'Something unexpected happened'
 const router = express.Router()
 router.post('/signup', async (req: Request, res: Response) => {
     try{
@@ -19,19 +22,18 @@ router.post('/signup', async (req: Request, res: Response) => {
         if (err.code === '23505'){
             return res.status(409).json({"error": "Email already exists"})
         }else{
-            return res.status(500).json({"error": "Something unexpected happened"})
+            return res.status(500).json({"error": ERR_INTERNAL})
         }
     }
 })
 
-router.post('/login', (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response, next:NextFunction) => {
     try{
         const {email, password} = req.body
-        const token = loginUser(email, password)
+        const token = await loginUser(email, password)
+        if (!token) throw new AuthError()
     }catch(err){
-        if (err instanceof AuthError){
-            return res.status(401).json({"error": "Invalid credentals"})
-        } 
+        next(err)
     }
 })
 
