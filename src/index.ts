@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import authRoutes from './routes/auth'
 import {errorHandler} from './middleware/errorHandler'
-import {requestId} from './middleware/requestId'
+import {requestId} from './middleware/requestId.d'
 import {logger} from './lib/logger'
 
 
