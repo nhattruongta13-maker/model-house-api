@@ -29,10 +29,14 @@ router.post('/signup', async (req: Request, res: Response) => {
 
 router.post('/login', async (req: Request, res: Response, next:NextFunction) => {
     try{
+        req.log.info({email: req.body.email}, 'user.login.attempt')
         const {email, password} = req.body
         const token = await loginUser(email, password)
         if (!token) throw new AuthError()
+        req.log.info({user_id: req.body.id}, 'user.login.success')
+        return res.json({token})
     }catch(err){
+        req.log.error({err, email: req.body.email}, 'user.login.failed')
         next(err)
     }
 })
